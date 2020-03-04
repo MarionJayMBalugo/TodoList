@@ -10,14 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
+Route::get('/', function () { return view('welcome'); })->name('welcome');
+Route::get('/home', function () { return view('home'); })->name('home');
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
-Route::get('/sample','TodoController@sample')->name('home');

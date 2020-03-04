@@ -1960,20 +1960,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user_id'],
+  props: ["user_id"],
   data: function data() {
     return {
+      status: 0,
+      // 1 = not yet, 2 = done
       todos: [],
-      searchName: '',
+      searchName: "",
       todo: {
-        id: '',
+        id: "",
         user_id: this.user_id,
         state: false,
-        title: '',
-        body: ''
+        title: "",
+        body: ""
       },
-      todo_id: '',
+      todo_id: "",
       pagination: {},
       edit: false
     };
@@ -1993,7 +2030,6 @@ __webpack_require__.r(__webpack_exports__);
         return res.json();
       }).then(function (res) {
         _this.todos = res.data;
-        console.log(res.data);
         vm.makePagination(res.meta, res.links);
       })["catch"](function (err) {
         return console.log(err);
@@ -2013,13 +2049,13 @@ __webpack_require__.r(__webpack_exports__);
     deleteTodo: function deleteTodo(id) {
       var _this2 = this;
 
-      if (confirm('Are you Sure?')) {
+      if (confirm("Are you Sure?")) {
         fetch("api/todo/".concat(id), {
-          method: 'delete'
+          method: "delete"
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          alert('todo was deleted');
+          alert("todo was deleted");
 
           _this2.fetchTodos();
         })["catch"](function (err) {
@@ -2033,18 +2069,18 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.edit == false) {
         //Add
-        fetch('api/todo', {
-          method: 'post',
+        fetch("api/todo", {
+          method: "post",
           body: JSON.stringify(this.todo),
           headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json"
           }
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this3.todo.title = '';
-          _this3.todo.body = '';
-          alert('todo Added');
+          _this3.todo.title = "";
+          _this3.todo.body = "";
+          alert("todo Added");
 
           _this3.fetchTodos();
         })["catch"](function (err) {
@@ -2053,18 +2089,18 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         //Update
         console.log("updates", this.todo);
-        fetch('api/todo', {
-          method: 'put',
+        fetch("api/todo", {
+          method: "put",
           body: JSON.stringify(this.todo),
           headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json"
           }
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this3.todo.title = '';
-          _this3.todo.body = '';
-          alert('todo Updated');
+          _this3.todo.title = "";
+          _this3.todo.body = "";
+          alert("todo Updated");
 
           _this3.fetchTodos();
         })["catch"](function (err) {
@@ -2074,6 +2110,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // editing of todo
     editTodo: function editTodo(todo) {
+      console.log("this is the state", todo.state);
       this.edit = true;
       this.todo.id = todo.id;
       this.todo.todo_id = todo.id;
@@ -2081,7 +2118,17 @@ __webpack_require__.r(__webpack_exports__);
       this.todo.title = todo.title;
       this.todo.body = todo.body;
     },
-    // searches todo by name 
+    editTodoState: function editTodoState(todo) {
+      console.log("this is the state", todo.state);
+      this.edit = true;
+      this.todo.id = todo.id;
+      this.todo.todo_id = todo.id;
+      this.todo.state = todo.state;
+      this.todo.title = todo.title;
+      this.todo.body = todo.body;
+      this.addTodo();
+    },
+    // searches todo by name
     searchTodo: function searchTodo() {
       var _this4 = this;
 
@@ -2103,7 +2150,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        alert('searching..');
+        alert("searching..");
         _this5.todos = res.data;
         vm.makePagination(res.meta, res.links);
       })["catch"](function (err) {
@@ -2119,7 +2166,7 @@ __webpack_require__.r(__webpack_exports__);
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        alert('searching..');
+        alert("searching..");
         _this6.todos = res.data;
         vm.makePagination(res.meta, res.links);
       })["catch"](function (err) {
@@ -2130,14 +2177,12 @@ __webpack_require__.r(__webpack_exports__);
     markNotYet: function markNotYet(todo) {
       this.edit = true;
       todo.state = false;
-      console.log("a", todo);
-      this.editTodo(todo);
+      this.editTodoState(todo);
     },
     markAsDone: function markAsDone(todo) {
       this.edit = true;
       todo.state = true;
-      console.log("a", todo);
-      this.editTodo(todo);
+      this.editTodoState(todo);
     }
   }
 });
@@ -37620,10 +37665,10 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-primary btn-block ",
+                staticClass: "btn btn-primary btn-block",
                 attrs: { type: "submit", value: "add todo" }
               },
-              [_vm._v(_vm._s(_vm.edit ? "Update " : "Add ") + "My Todo ")]
+              [_vm._v(_vm._s(_vm.edit ? "Update " : "Add ") + "My Todo")]
             )
           ])
         ]
@@ -37736,7 +37781,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-light ",
+              staticClass: "btn btn-light",
               staticStyle: { width: "200px" },
               attrs: { type: "button", value: "add todo" },
               on: {
@@ -37753,7 +37798,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-light  ",
+              staticClass: "btn btn-light",
               staticStyle: { width: "200px" },
               attrs: { type: "submit", value: "add todo" },
               on: {
@@ -37765,11 +37810,12 @@ var render = function() {
             [_vm._v("Todo")]
           )
         ]),
+        _vm._v(" "),
         _c("span", [
           _c(
             "button",
             {
-              staticClass: "btn btn-light ",
+              staticClass: "btn btn-light",
               staticStyle: { width: "200px" },
               attrs: { type: "submit", value: "add todo" },
               on: {
@@ -37869,7 +37915,7 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "btn btn-light btn-block ",
+          staticClass: "btn btn-light btn-block",
           attrs: { type: "submit", value: "add todo" }
         },
         [_vm._v("search")]

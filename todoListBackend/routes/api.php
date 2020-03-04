@@ -24,9 +24,9 @@ Route::post('todo','TodoController@store');
 //Update todo
 Route::put('todo','TodoController@store');
 
-
 //Delete todo
 Route::delete('todo/{id}','TodoController@destroy');
+
 //List searched todo
 Route::get('todo/search/{searchName}','TodoController@search');
 

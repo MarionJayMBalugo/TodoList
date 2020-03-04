@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Todo;
 use App\Http\Resources\Todo as TodoResource;
+use App\Http\Requests\TodoInputValidation ;
 use Auth;
 class TodoController extends Controller
 {
+
+    private $toDo;
+
+    public function __construct(Todo $todo)
+    {
+        $this->toDo = $todo;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +27,7 @@ class TodoController extends Controller
     {
         
         //Get Articles
-        $todos=Todo::orderBy('created_at','desc')->where('user_id',$user_id)->paginate(5);
+        $todos= $this->toDo->getTodos($user_id);
         //Return collection of Articles in a resource
         return TodoResource::collection($todos);
     }
@@ -30,7 +39,7 @@ class TodoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TodoInputValidation $request)
     {
         $todo=$request->isMethod('put')?Todo::findOrFail($request->todo_id):new Todo;
         $todo->id=$request->input('todo_id');
